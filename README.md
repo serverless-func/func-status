@@ -1,4 +1,5 @@
 func-status
+----
 > Inspired by [Statsig's Open-Source Status Page](https://github.com/statsig-io/statuspage)
 > and [Gatus](https://github.com/TwiN/gatus)
 ----
