@@ -15,7 +15,7 @@ type Endpoint struct {
 	gorm.Model
 
 	// Key of the endpoint. Auto generated.
-	Key string `gorm:"column:key,uniqueIndex:uidx_key"`
+	Key string `gorm:"column:key;uniqueIndex:uidx_key"`
 
 	// Name of the endpoint. Can be anything.
 	Name string `gorm:"column:name"`
@@ -38,10 +38,10 @@ type Result struct {
 	gorm.Model
 
 	// Key of the endpoint. Reference of the Endpoint.
-	Key string `gorm:"column:key,uniqueIndex:uidx_key_day"`
+	Key string `gorm:"column:key;uniqueIndex:uidx_key_day"`
 
 	// Day of check health
-	Day string `gorm:"column:day,uniqueIndex:uidx_key_day"`
+	Day string `gorm:"column:day;uniqueIndex:uidx_key_day"`
 
 	// SLA of result by day
 	SLA float64 `gorm:"column:sla"`
