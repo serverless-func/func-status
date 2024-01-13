@@ -112,7 +112,7 @@ func SaveResult(key string, result *core.Result, maxDays int) {
 		Status: StatusNoData,
 		Logs:   nil,
 	}
-	conn.Where(&Result{Key: key, Day: day}).FirstOrCreate(dayResult)
+	conn.Where(&Result{Key: key, Day: day}).First(dayResult)
 	// 更新当天数据
 	nowResult := ConditionLog{
 		Time: time.Now().Format("T15:04:05Z"),
@@ -142,7 +142,7 @@ func SaveEndpoint(e *core.Endpoint) {
 	if e.Version != "" {
 		endpoint.Desc = "Running Version: " + e.Version
 	}
-	conn.Where(&Endpoint{Key: e.Key()}).FirstOrCreate(endpoint)
+	conn.Where(&Endpoint{Key: e.Key()}).First(endpoint)
 	var results []Result
 	conn.Where(&Result{Key: e.Key()}).Find(&results)
 	status, sla := calcEndpointSLA(results)
