@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/serverless-aliyun/func-status/client/config"
-	"github.com/serverless-aliyun/func-status/client/gen"
-	r "github.com/serverless-aliyun/func-status/client/result"
+	"github.com/serverless-aliyun/func-status/client/storage"
 	"log"
 	"net/http"
 	"os"
@@ -18,7 +17,7 @@ func main() {
 		log.Panicln(err)
 		return
 	}
-	err = r.ConnectToDB(cfg.DSN)
+	err = storage.ConnectToDB(cfg.DSN)
 	if err != nil {
 		return
 	}
@@ -41,21 +40,16 @@ func main() {
 }
 
 func check(cfg *config.Config) {
-	var endpoints []gen.EndpointGen
 	for _, endpoint := range cfg.Endpoints {
 		if endpoint.IsEnabled() {
 			time.Sleep(777 * time.Millisecond)
 			result := endpoint.EvaluateHealth()
-			url := endpoint.URL
-			if endpoint.Version != "" {
-				url = "Running Version: " + endpoint.Version
-			}
-			endpoints = append(endpoints, gen.EndpointGen{
-				Key:     endpoint.Key(),
-				Name:    endpoint.Name,
-				URL:     url,
-				Results: r.SaveToDB(endpoint, result, cfg.MaxDays),
-			})
+
+			// save result to db
+			storage.SaveResult(endpoint.Key(), result, cfg.MaxDays)
+			// save endpoint to db
+			storage.SaveEndpoint(endpoint)
+
 			if cfg.Debug {
 				rb, _ := json.Marshal(result)
 				fmt.Println(string(rb))
