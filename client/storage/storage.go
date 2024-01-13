@@ -115,7 +115,7 @@ func SaveResult(key string, result *core.Result, maxDays int) {
 	conn.Where(&Result{Key: key, Day: day}).First(dayResult)
 	// 更新当天数据
 	nowResult := ConditionLog{
-		Time: time.Now().Format("T15:04:05Z"),
+		Time: time.Now().Format("15:04:05"),
 		Conditions: lo.Map(result.ConditionResults, func(item *core.ConditionResult, index int) ConditionResult {
 			return ConditionResult{
 				Condition: item.Condition,
@@ -124,6 +124,7 @@ func SaveResult(key string, result *core.Result, maxDays int) {
 		}),
 	}
 	dayResult.Logs = append([]ConditionLog{nowResult}, dayResult.Logs...)
+	dayResult.Logs = dayResult.Logs[:int(math.Min(10, float64(len(dayResult.Logs))))]
 	// 计算SLA
 	status, sla := calcDaySLA(dayResult.Logs)
 	dayResult.Status = status
