@@ -240,7 +240,14 @@ func (endpoint *Endpoint) call(result *Result) {
 		endpoint.DNS.query(endpoint.URL, result)
 		result.Duration = time.Since(startTime)
 	} else {
-		response, err = util.GetHTTPClient().Do(request)
+		var retry = 0
+		for retry < 3 {
+			response, err = util.GetHTTPClient().Do(request)
+			if err == nil {
+				break
+			}
+			retry++
+		}
 		result.Duration = time.Since(startTime)
 		if err != nil {
 			result.AddError(err.Error())
