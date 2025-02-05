@@ -63,7 +63,7 @@ func LoadApolloConfiguration() (*Config, error) {
 	})
 
 	remoteConfig := client.GetConfig(c.NamespaceName).GetContent()
-
+	log.Printf("Success Load Remote Config: %s\n", remoteConfig)
 	var config *Config
 	err := yaml.Unmarshal([]byte(remoteConfig), &config)
 	return config, err
