@@ -6,6 +6,7 @@ require (
 	github.com/Masterminds/semver/v3 v3.2.1
 	github.com/TwiN/gatus/v5 v5.6.0
 	github.com/apolloconfig/agollo/v4 v4.3.1
+	github.com/chzyer/logex v1.1.10
 	github.com/miekg/dns v1.1.56
 	github.com/samber/lo v1.38.1
 	gopkg.in/yaml.v3 v3.0.1

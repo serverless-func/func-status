@@ -6,6 +6,7 @@ import (
 	"github.com/apolloconfig/agollo/v4/constant"
 	apollo "github.com/apolloconfig/agollo/v4/env/config"
 	"github.com/apolloconfig/agollo/v4/extension"
+	"github.com/chzyer/logex"
 	"github.com/serverless-aliyun/func-status/client/core"
 	"gopkg.in/yaml.v3"
 	"log"
@@ -58,10 +59,10 @@ func LoadApolloConfiguration() (*Config, error) {
 		Secret:         os.Getenv("APOLLO_TOKEN"),
 	}
 	extension.AddFormatParser(constant.YAML, &Parser{})
+	agollo.SetLogger(logex.NewLoggerEx(os.Stdout))
 	client, _ := agollo.StartWithConfig(func() (*apollo.AppConfig, error) {
 		return c, nil
 	})
-
 	remoteConfig := client.GetConfig(c.NamespaceName).GetContent()
 	log.Printf("Success Load Remote Config: %s\n", remoteConfig)
 	var config *Config
