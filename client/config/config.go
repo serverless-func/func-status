@@ -51,12 +51,13 @@ func LoadConfiguration(cfgPath string) (*Config, error) {
 func LoadApolloConfiguration() (*Config, error) {
 
 	c := &apollo.AppConfig{
-		AppID:          os.Getenv("APOLLO_APP_ID"),
-		Cluster:        "default",
-		IP:             os.Getenv("APOLLO_HOST"),
-		NamespaceName:  os.Getenv("APOLLO_NAMESPACE"),
-		IsBackupConfig: true,
-		Secret:         os.Getenv("APOLLO_TOKEN"),
+		AppID:             os.Getenv("APOLLO_APP_ID"),
+		Cluster:           "default",
+		IP:                os.Getenv("APOLLO_HOST"),
+		NamespaceName:     os.Getenv("APOLLO_NAMESPACE"),
+		IsBackupConfig:    true,
+		Secret:            os.Getenv("APOLLO_TOKEN"),
+		SyncServerTimeout: 30,
 	}
 	extension.AddFormatParser(constant.YAML, &Parser{})
 	agollo.SetLogger(logex.NewLoggerEx(os.Stdout))
