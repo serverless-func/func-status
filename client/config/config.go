@@ -61,6 +61,7 @@ func LoadApolloConfiguration() (*Config, error) {
 	}
 	extension.AddFormatParser(constant.YAML, &Parser{})
 	agollo.SetLogger(logex.NewLoggerEx(os.Stdout))
+	log.Printf("Before Load Remote Config: %v\n", c)
 	client, _ := agollo.StartWithConfig(func() (*apollo.AppConfig, error) {
 		return c, nil
 	})
